@@ -84,24 +84,11 @@ git clone https://github.com/tvoje-jmeno/skolni-dashboard.git
 * Přehledná správa školních povinností
 * Získání praxe ve vývoji webových aplikací
 
----
-
-## 📈 Možné budoucí rozšíření
-
-* Přihlášení uživatele (login systém)
-* Backend a databáze
-* Role učitel / student
-* Export rozvrhu do PDF
-* Mobilní verze (PWA)
-
----
-
 ## 👨‍💻 Autor
 
 Vytvořeno jako školní projekt.
 
-* ✍️ Autor: *doplň své jméno*
-* 🏫 Škola: *název školy*
+* ✍️ Autor: dev_bomba
 * 📅 Rok: 2025
 
 ---
