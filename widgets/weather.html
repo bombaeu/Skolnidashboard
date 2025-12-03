@@ -1,0 +1,88 @@
+<div class="weather-widget">
+    <div class="weather-city">Načítám...</div>
+    <div class="weather-temp" id="weather-temp">--°C</div>
+    <div class="weather-desc" id="weather-desc">Načítám...</div>
+</div>
+
+<style>
+    .weather-widget {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        text-align: center;
+        padding: 1.5rem 2rem;
+        border-radius: 0.75rem;
+        background: #ffffff;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+        max-width: 220px;
+        margin: 0 auto;
+    }
+
+    .weather-city {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+    }
+
+    .weather-temp {
+        font-size: 2.3rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+    }
+
+    .weather-desc {
+        font-size: 0.95rem;
+        color: #555;
+    }
+</style>
+
+<script>
+    (function () {
+        const tempEl = document.getElementById('weather-temp');
+        const descEl = document.getElementById('weather-desc');
+        const cityEl = document.querySelector('.weather-city');
+
+        const lat = 49.069;
+        const long = 17.460;
+
+        function getWeatherDescription(code) {
+            if (code === 0) return 'Jasno';
+            if (code >= 1 && code <= 3) return 'Polojasno';
+            if (code >= 45 && code <= 48) return 'Mlha';
+            if (code >= 51 && code <= 67) return 'Déšť';
+            if (code >= 71 && code <= 77) return 'Sníh';
+            if (code >= 95) return 'Bouřka';
+            return 'Neznámé';
+        }
+
+        async function loadWeather() {
+            try {
+                const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current_weather=true`;
+                const response = await fetch(weatherUrl);
+                const data = await response.json();
+
+                if (data && data.current_weather) {
+                    const temp = data.current_weather.temperature;
+                    const code = data.current_weather.weathercode;
+                    tempEl.textContent = `${temp.toFixed(1)}°C`;
+                    descEl.textContent = getWeatherDescription(code);
+                } else {
+                    descEl.textContent = 'Nelze načíst počasí';
+                }
+            } catch (e) {
+                descEl.textContent = 'Chyba načítání';
+            }
+
+            try {
+                const geoUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${long}&localityLanguage=cs`;
+                const responseGeo = await fetch(geoUrl);
+                const dataGeo = await responseGeo.json();
+                cityEl.textContent =
+                    dataGeo.city || dataGeo.locality || 'Neznámé místo';
+            } catch (e) {
+                cityEl.textContent = 'Neznámé místo';
+            }
+        }
+
+        loadWeather();
+        setInterval(loadWeather, 10 * 60 * 1000);
+    })();
+</script>
