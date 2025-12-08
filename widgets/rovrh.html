@@ -1,0 +1,336 @@
+<div class="schedule-widget">
+    <div class="schedule-header">
+        <div>
+            <p class="eyebrow">Rozvrh</p>
+            <h3>Školní týden v kapse</h3>
+        </div>
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80"
+            alt="Studentské plánování" loading="lazy">
+    </div>
+
+    <div class="schedule-meta">
+        <div>
+            <span class="meta-label">Dnes</span>
+            <strong id="schedule-date">—</strong>
+        </div>
+        <div>
+            <span class="meta-label">Další hodina</span>
+            <strong id="next-lesson-label">Zjišťuji…</strong>
+        </div>
+        <div>
+            <span class="meta-label">Týden</span>
+            <strong id="schedule-week">—</strong>
+        </div>
+    </div>
+
+    <div class="schedule-table-wrapper">
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th scope="col">Den</th>
+                    <th scope="col">1</th>
+                    <th scope="col">2</th>
+                    <th scope="col">3</th>
+                    <th scope="col">4</th>
+                    <th scope="col">5</th>
+                    <th class="break-head" scope="col" aria-label="Velká přestávka">☕</th>
+                    <th scope="col">6</th>
+                    <th scope="col">7</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-day="1">
+                    <th scope="row">PONDĚLÍ</th>
+                    <td class="free-slot" data-day="1" data-lesson="1">volno</td>
+                    <td data-day="1" data-lesson="2">Pg</td>
+                    <td data-day="1" data-lesson="3">Pg</td>
+                    <td data-day="1" data-lesson="4">Aj</td>
+                    <td data-day="1" data-lesson="5">Sv</td>
+                    <td class="break-cell" aria-hidden="true"></td>
+                    <td data-day="1" data-lesson="6">Web</td>
+                    <td data-day="1" data-lesson="7">Web</td>
+                </tr>
+                <tr data-day="2">
+                    <th scope="row">ÚTERÝ</th>
+                    <td data-day="2" data-lesson="1">F</td>
+                    <td data-day="2" data-lesson="2">M</td>
+                    <td data-day="2" data-lesson="3">Ps</td>
+                    <td data-day="2" data-lesson="4">Sv</td>
+                    <td data-day="2" data-lesson="5">Čjg</td>
+                    <td class="break-cell" aria-hidden="true"></td>
+                    <td data-day="2" data-lesson="6">Aj</td>
+                    <td data-day="2" data-lesson="7">Zac</td>
+                </tr>
+                <tr data-day="3">
+                    <th scope="row">STŘEDA</th>
+                    <td data-day="3" data-lesson="1">Prg</td>
+                    <td data-day="3" data-lesson="2">Prg</td>
+                    <td data-day="3" data-lesson="3">Prg</td>
+                    <td data-day="3" data-lesson="4">Hw</td>
+                    <td data-day="3" data-lesson="5">Pp</td>
+                    <td class="break-cell" aria-hidden="true"></td>
+                    <td data-day="3" data-lesson="6">Aj</td>
+                    <td data-day="3" data-lesson="7">Web</td>
+                </tr>
+                <tr data-day="4">
+                    <th scope="row">ČTVRTEK</th>
+                    <td class="free-slot" data-day="4" data-lesson="1">volno</td>
+                    <td data-day="4" data-lesson="2">M</td>
+                    <td data-day="4" data-lesson="3">Pp</td>
+                    <td data-day="4" data-lesson="4">ČJL</td>
+                    <td data-day="4" data-lesson="5">M</td>
+                    <td class="break-cell" aria-hidden="true"></td>
+                    <td data-day="4" data-lesson="6">Tv</td>
+                    <td data-day="4" data-lesson="7">Tv</td>
+                </tr>
+                <tr data-day="5">
+                    <th scope="row">PÁTEK</th>
+                    <td data-day="5" data-lesson="1">Osv</td>
+                    <td data-day="5" data-lesson="2">Osv</td>
+                    <td data-day="5" data-lesson="3">A3D</td>
+                    <td data-day="5" data-lesson="4">Lvk</td>
+                    <td data-day="5" data-lesson="5">Ps</td>
+                    <td class="break-cell" aria-hidden="true"></td>
+                    <td class="free-slot" data-day="5" data-lesson="6">volno</td>
+                    <td class="free-slot" data-day="5" data-lesson="7">volno</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+   
+<script>
+    (() => {
+        const root = document.currentScript.closest('.schedule-widget');
+        if (!root) return;
+
+        const formatDate = new Intl.DateTimeFormat('cs-CZ', { weekday: 'long', day: 'numeric', month: 'long' });
+        const now = new Date();
+
+        const dateTarget = root.querySelector('#schedule-date');
+        if (dateTarget) {
+            dateTarget.textContent = formatDate.format(now);
+        }
+
+        const weekTarget = root.querySelector('#schedule-week');
+        if (weekTarget) {
+            weekTarget.textContent = `Týden ${getWeekNumber(now)}`;
+        }
+
+        const today = now.getDay();
+        const todayRow = root.querySelector(`tbody tr[data-day="${today}"]`);
+        if (todayRow) {
+            todayRow.classList.add('is-today');
+        }
+
+        const nextTarget = root.querySelector('#next-lesson-label');
+        const lessonTimes = [
+            { start: '07:55', end: '08:40' },
+            { start: '08:50', end: '09:35' },
+            { start: '09:45', end: '10:30' },
+            { start: '10:40', end: '11:25' },
+            { start: '11:35', end: '12:15' },
+            { start: '12:35', end: '13:20' },
+            { start: '13:25', end: '14:10' }
+        ];
+
+        const minutes = now.getHours() * 60 + now.getMinutes();
+        let slotIndex = lessonTimes.findIndex(({ start, end }) => {
+            return minutes >= timeToMinutes(start) && minutes < timeToMinutes(end);
+        });
+
+        if (slotIndex === -1) {
+            slotIndex = lessonTimes.findIndex(({ start }) => minutes < timeToMinutes(start));
+        }
+
+        if (slotIndex > -1 && today >= 1 && today <= 5) {
+            const cell = root.querySelector(
+                `td[data-day="${today}"][data-lesson="${slotIndex + 1}"]`
+            );
+            if (cell) {
+                const isRunning = minutes >= timeToMinutes(lessonTimes[slotIndex].start) &&
+                    minutes < timeToMinutes(lessonTimes[slotIndex].end);
+                cell.classList.add(isRunning ? 'current-slot' : 'next-slot');
+                if (nextTarget) {
+                    nextTarget.textContent = cell.textContent.trim() || 'Volno';
+                }
+            } else if (nextTarget) {
+                nextTarget.textContent = 'Volno';
+            }
+        } else if (nextTarget) {
+            nextTarget.textContent = 'Volno';
+        }
+
+        function timeToMinutes(value) {
+            const [h, m] = value.split(':').map(Number);
+            return h * 60 + m;
+        }
+
+        function getWeekNumber(date) {
+            const tempDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+            const dayNum = tempDate.getUTCDay() || 7;
+            tempDate.setUTCDate(tempDate.getUTCDate() + 4 - dayNum);
+            const yearStart = new Date(Date.UTC(tempDate.getUTCFullYear(), 0, 1));
+            return Math.ceil((((tempDate - yearStart) / 86400000) + 1) / 7);
+        }
+    })();
+</script>
+
+<style>
+    .schedule-widget {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .schedule-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .schedule-header img {
+        width: 180px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(15, 23, 42, 0.2);
+    }
+
+    .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-size: 0.75rem;
+        color: #6366f1;
+        margin-bottom: 0.25rem;
+    }
+
+    .schedule-header h3 {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        color: #6b7280;
+        margin-top: 0.25rem;
+    }
+
+    .schedule-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .schedule-meta div {
+        flex: 1 1 120px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: linear-gradient(145deg, #f9fafb, #ffffff);
+    }
+
+    .meta-label {
+        display: block;
+        font-size: 0.75rem;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.15rem;
+    }
+
+    .schedule-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .schedule-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 0.95rem;
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+        border: 1px solid #e5e7eb;
+        padding: 0.55rem;
+        text-align: center;
+        min-width: 60px;
+    }
+
+    .schedule-table thead th {
+        background: #111827;
+        color: #f9fafb;
+        font-weight: 600;
+    }
+
+    .schedule-table tbody th {
+        text-align: left;
+        background: #f8fafc;
+        font-weight: 600;
+    }
+
+    .break-head,
+    .break-cell {
+        width: 18px;
+        min-width: 18px;
+        padding: 0;
+        background-image: repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(15, 23, 42, 0.08) 4px, rgba(15, 23, 42, 0.08) 8px);
+    }
+
+    .break-cell {
+        border-left: none;
+        border-right: none;
+    }
+
+    .free-slot {
+        color: #a1a1aa;
+        font-style: italic;
+    }
+
+    .schedule-table tr.is-today th,
+    .schedule-table tr.is-today td:not(.break-cell) {
+        background: #eef2ff;
+    }
+
+    .current-slot {
+        background: #ffedd5 !important;
+        font-weight: 600;
+    }
+
+    .next-slot {
+        background: #fef9c3 !important;
+        font-weight: 600;
+    }
+
+    .schedule-legend {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    .schedule-legend strong {
+        display: block;
+        margin-bottom: 0.15rem;
+    }
+
+    .schedule-legend span {
+        color: #6b7280;
+    }
+
+    @media (max-width: 700px) {
+        .schedule-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .schedule-header img {
+            width: 100%;
+            height: 180px;
+        }
+
+        .schedule-meta {
+            flex-direction: column;
+        }
+    }
+</style>
