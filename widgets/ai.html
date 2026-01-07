@@ -1,0 +1,83 @@
+<style>
+    .w {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        color: #ddd;
+        font-family: inherit
+    }
+
+    .h {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: .5rem;
+        border-bottom: 1px solid #fff2
+    }
+
+    .t {
+        margin: 0;
+        font-size: 1.1rem;
+        background: linear-gradient(90deg, #fff, #aaa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent
+    }
+
+    .e {
+        flex: 1;
+        background: #0002;
+        border: 1px solid #fff1;
+        border-radius: 6px;
+        padding: .5rem;
+        color: inherit;
+        resize: none;
+        outline: none
+    }
+
+    .m {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+        margin-top: .5rem;
+        text-align: center
+    }
+
+    .v {
+        font-weight: 700;
+        display: block
+    }
+
+    .l {
+        font-size: .6rem;
+        color: #888;
+        text-transform: uppercase
+    }
+
+    .k {
+        margin-top: .5rem;
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        min-height: 20px
+    }
+
+    .g {
+        font-size: .7rem;
+        background: #4caf5026;
+        color: #81c784;
+        padding: 1px 6px;
+        border-radius: 8px
+    }
+</style>
+<div class="w">
+    <div class="h">
+        <h3 class="t">Analýza</h3><small id="s">Ready</small>
+    </div><textarea id="i" class="e" placeholder="Piš sem..."></textarea>
+    <div class="m">
+        <div><span id="mw" class="v">0</span><span class="l">Slov</span></div>
+        <div><span id="mc" class="v">0</span><span class="l">Znaků</span></div>
+        <div><span id="mt" class="v">0m</span><span class="l">Čas</span></div>
+        <div><span id="md" class="v">0%</span><span class="l">Hustota</span></div>
+    </div>
+    <div id="k" class="k"></div>
+</div>
+<script>(() => { let $ = i => document.getElementById(i), I = $('i'), S = $('s'), K = $('k'), W = $('mw'), C = $('mc'), T = $('mt'), D = $('md'), sw = new Set('a,aby,aj,ale,ani,bude,by,byl,byla,bylo,být,co,či,do,jak,jako,je,ho,jen,ji,kde,kdo,kdy,když,ke,která,které,který,ma,má,mezi,mi,mne,mnou,mu,my,na,nad,nám,nás,náš,ne,nebo,nic,ní,ním,o,od,on,ona,oni,ono,pak,po,pod,pro,před,přes,při,s,se,si,snad,své,svůj,svá,tak,tam,ten,tento,tě,to,toho,tom,tomto,tomu,tu,tvůj,ty,u,už,v,ve,vy,vám,vás,z,za,ze,že,the,and,to,of,in,is,it,you,that,he,was,for,on,are,with,as,his,they,be,at,one,have,this,from,or,had,by,but,what,some,we,can,out,other,were,all,there,when,up,use,your,how,said,an,each,she'.split(',')), A = () => { let v = I.value, r = v.split(/\s+/).filter(x => x), l = r.length; W.innerText = l; C.innerText = v.length; T.innerText = Math.ceil(l / 200) + 'm'; D.innerText = (l ? Math.round((new Set(r.map(x => x.toLowerCase())).size / l) * 100) : 0) + '%'; let f = {}; r.forEach(x => { let y = x.toLowerCase().replace(/\W/g, ''); if (y.length > 3 && !sw.has(y)) f[y] = (f[y] || 0) + 1 }); K.innerHTML = Object.entries(f).sort((a, b) => b[1] - a[1]).slice(0, 5).map(x => `<span class="g">${x[0]}</span>`).join(''); localStorage.setItem('aw', v); S.innerText = 'Uloženo'; setTimeout(() => S.innerText = 'Ready', 500) }; I.value = localStorage.getItem('aw') || ''; I.oninput = A; A() })()</script>
