@@ -17,67 +17,105 @@
         </template>
     </ul>
     <script> function todoWidget() {
-    return {
-        newTodo: '',
-        todos: JSON.parse(localStorage.getItem('todos') || '[]'),
-        init() {
-            this.$watch('todos', (value) => {
-                localStorage.setItem('todos', JSON.stringify(value));
-            });
-        },
-        // ... další funkce
-        add() {
-                if (this.newTodo.trim() === '') return;
-                this.todos.push({
-                    id: Date.now(),
-                    text: this.newTodo,
-                    completed: false
-                });
-                this.newTodo = '';
-            },
-            remove(id) {
-                this.todos = this.todos.filter(todo => todo.id !== id);
+            return {
+                newTodo: '',
+                todos: JSON.parse(localStorage.getItem('todos') || '[]'),
+                init() {
+                    this.$watch('todos', (value) => {
+                        localStorage.setItem('todos', JSON.stringify(value));
+                    });
+                },
+                // ... další funkce
+                add() {
+                    if (this.newTodo.trim() === '') return;
+                    this.todos.push({
+                        id: Date.now(),
+                        text: this.newTodo,
+                        completed: false
+                    });
+                    this.newTodo = '';
+                },
+                remove(id) {
+                    this.todos = this.todos.filter(todo => todo.id !== id);
+                }
+
             }
+        }
+    </script>
 
-    }
-}
-</script>
+    <style>
+        .todo-widget {
+            background: var(--widget-bg);
+            color: var(--text-color);
+            padding: 1rem;
+            border-radius: 0.75rem;
+        }
 
-<style>
-    .input-group,
-    .todo-widget li,
-   
-.todo.widget li {
-    padding: 10px;
+        .todo-widget h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
 
-    margin-bottom: 10px;
-    display: flex;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, .5);
-    justify-content: space-between;
-}
+        .input-group,
+        .todo-widget li {
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            justify-content: space-between;
+            border-radius: 4px;
+            border: 1px solid var(--shadow-hover);
+            background: var(--widget-bg);
+        }
 
-.completed span {
-    text-decoration: line-through;
-}
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--widget-bg);
+            border: none;
+            box-shadow: none;
+            padding: 0;
+        }
 
-.todo-widget button {
-    cursor: pointer;
-    padding: 15px 25px;
-    background-color: tomato;
-    color: rgb(183, 20, 20);
-    border: none;
+        .input-group input {
+            flex: 1;
+            padding: 8px 12px;
+            background: var(--body-bg);
+            border: 1px solid var(--shadow-hover);
+            color: var(--text-color);
+            border-radius: 4px;
+        }
 
-}
-.input-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    background: black;
-}
-.input-group input {
-    padding:5px 10px;
-    width: 90%; 
-    background: purple;
-}
-</style>
+        .todo-item-content {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .completed span {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .todo-widget button {
+            cursor: pointer;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: var(--primary-color-text);
+            border: none;
+            border-radius: 4px;
+            transition: opacity 0.2s;
+        }
+
+        .todo-widget button.delete-btn {
+            padding: 4px 8px;
+            background: var(--shadow-hover);
+            color: var(--text-color);
+            margin-left: 0.5rem;
+        }
+
+        .todo-widget button:hover {
+            opacity: 0.9;
+        }
+    </style>
 </div>

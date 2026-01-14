@@ -3,7 +3,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        color: #ddd;
+        color: var(--text-color);
         font-family: inherit
     }
 
@@ -11,21 +11,19 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: .5rem;
-        border-bottom: 1px solid #fff2
+        border-bottom: 1px solid var(--shadow-hover);
     }
 
     .t {
         margin: 0;
         font-size: 1.1rem;
-        background: linear-gradient(90deg, #fff, #aaa);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent
+        color: var(--primary-color);
     }
 
     .e {
         flex: 1;
-        background: #0002;
-        border: 1px solid #fff1;
+        background: var(--shadow-color);
+        border: 1px solid var(--shadow-hover);
         border-radius: 6px;
         padding: .5rem;
         color: inherit;
@@ -48,7 +46,8 @@
 
     .l {
         font-size: .6rem;
-        color: #888;
+        color: var(--text-color);
+        opacity: 0.6;
         text-transform: uppercase
     }
 
@@ -62,10 +61,11 @@
 
     .g {
         font-size: .7rem;
-        background: #4caf5026;
-        color: #81c784;
+        background: var(--shadow-hover);
+        color: var(--primary-color);
         padding: 1px 6px;
-        border-radius: 8px
+        border-radius: 8px;
+        border: 1px solid var(--shadow-hover);
     }
 </style>
 <div class="w">

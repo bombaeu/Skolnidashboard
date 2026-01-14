@@ -25,31 +25,32 @@
 
     <style>
         .mood-container {
-            background: rgba(20, 20, 25, 0.85);
+            background: var(--widget-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 24px;
             padding: 24px;
-            color: #fff;
+            color: var(--text-color);
             max-width: 420px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--shadow-hover);
             font-family: 'Segoe UI', system-ui, sans-serif;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 50px var(--shadow-color), inset 0 0 0 1px var(--shadow-hover);
         }
 
         .mood-container h3 {
             margin: 0 0 20px 0;
             font-weight: 700;
             text-align: center;
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: var(--text-color);
+            text-shadow: 0 2px 4px var(--shadow-color);
             font-size: 1.2rem;
             letter-spacing: 0.5px;
         }
 
         .mood-container h4 {
             font-size: 0.75rem;
-            color: #aaa;
+            color: var(--text-color);
+            opacity: 0.7;
             margin-top: 24px;
             margin-bottom: 12px;
             text-transform: uppercase;
@@ -60,9 +61,9 @@
 
         .mood-date {
             width: 100%;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #eee;
+            background: var(--shadow-color);
+            border: 1px solid var(--shadow-hover);
+            color: var(--text-color);
             padding: 10px 14px;
             border-radius: 12px;
             margin-bottom: 24px;
@@ -76,19 +77,19 @@
         }
 
         .mood-date:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: var(--shadow-hover);
         }
 
         .mood-date:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+            background: var(--shadow-hover);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--shadow-color);
         }
 
         .mood-options {
             display: flex;
             justify-content: space-between;
-            background: rgba(0, 0, 0, 0.25);
+            background: var(--shadow-color);
             padding: 14px;
             border-radius: 20px;
             gap: 12px;
@@ -112,9 +113,9 @@
             height: 74px;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--shadow-hover);
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            background: #000;
+            background: var(--body-bg);
         }
 
         .mood-options img {
@@ -127,8 +128,8 @@
 
         .mood-options button:hover .img-wrapper {
             transform: scale(1.15);
-            border-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px var(--shadow-color);
         }
 
         .mood-options button:active .img-wrapper {
@@ -139,7 +140,7 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 8px;
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--shadow-color);
             padding: 12px;
             border-radius: 16px;
         }
@@ -153,7 +154,8 @@
 
         .history-day span {
             margin-bottom: 6px;
-            color: #777;
+            color: var(--text-color);
+            opacity: 0.8;
             font-weight: 600;
         }
 
@@ -165,7 +167,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--shadow-hover);
         }
 
         .history-day img {
@@ -180,7 +182,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #444;
+            color: var(--text-color);
+            opacity: 0.5;
             font-size: 10px;
         }
     </style>
